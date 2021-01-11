@@ -2,7 +2,7 @@
 // Show the form
 // =====================================================================================================================
 
-// Select the button
+// Fetch the button
 const showFormBtn = document.querySelector('.showFormBtn');
 
 // On click, hide the button and show the form
@@ -12,6 +12,9 @@ showFormBtn.addEventListener("click", () => {
 })
 
 
+// =====================================================================================================================
+// Form Handling
+// =====================================================================================================================
 
 // Fetch form for custom Bootstrap validation styles
 const form = document.querySelector('.needs-validation')
@@ -19,9 +22,12 @@ const form = document.querySelector('.needs-validation')
 // Create the bootstrap modal for letting the user know their form was submitted
 const modal = new bootstrap.Modal(document.getElementById('submissionModal'));
 
-// Check validation and send form
+// Submit click event
+// Check validation, sends the form, alerts the user
 form.addEventListener('submit', function (event) {
 
+    // Validation
+    // -----------------------------------------------------------------------------------
     // Prevent default submit action
     event.preventDefault()
 
@@ -33,14 +39,19 @@ form.addEventListener('submit', function (event) {
     // Mark the form as validated
     form.classList.add('was-validated');
 
-    // Send data to PHP
+
+
+    // Sending the Form
+    // -----------------------------------------------------------------------------------
     let formData = getFromValues(form);
     const request = new XMLHttpRequest();
     request.open('POST', 'contact.php', true);
     request.send(formData);
 
 
+
     // Handle response from server
+    // -----------------------------------------------------------------------------------
     request.onreadystatechange = function () {
         if (request.status === 200) {
             console.log(request.responseText);
@@ -58,7 +69,12 @@ form.addEventListener('submit', function (event) {
 }, false)
 
 
-// Make the form button clickable upon captcha completion
+
+// =====================================================================================================================
+// Auxiliary Functions
+// =====================================================================================================================
+
+// Make the form button clickable once the captcha is completed
 function onCaptchaComplete(){
     const submitButton = document.querySelector('.submit-btn');
 
@@ -67,7 +83,7 @@ function onCaptchaComplete(){
 }
 
 
-// Get form responses and prep them for sending
+// Get the values from the form and prep them for sending
 function getFromValues(form){
     let formData = new FormData;
 
