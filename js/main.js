@@ -1,13 +1,17 @@
 // Fetch form for custom Bootstrap validation styles
 const form = document.querySelector('.needs-validation')
 
+// Create the bootstrap modal for letting the user know their form was submitted
+const modal = new bootstrap.Modal(document.getElementById('submissionModal'));
+
 // Check validation and send form
 form.addEventListener('submit', function (event) {
-    // event.preventDefault()
+
+    // Prevent default submit action
+    event.preventDefault()
 
     // If the form does not validate, prevent submission
     if (!form.checkValidity() || !grecaptcha.getResponse()) {
-        event.preventDefault()
         event.stopPropagation()
     }
 
@@ -17,9 +21,24 @@ form.addEventListener('submit', function (event) {
     // Send data to PHP
     let formData = getFromValues(form);
     const request = new XMLHttpRequest();
-
     request.open('POST', 'contact.php', true);
     request.send(formData);
+
+
+    // Handle response from server
+    request.onreadystatechange = function () {
+        if (request.status === 200) {
+            console.log(request.responseText);
+
+            // Show the Modal
+            modal.show();
+            document.getElementById('submissionModalBody').innerHTML = request.responseText;
+
+            // Reset ReCaptcha
+            grecaptcha.reset();
+
+        }
+    };
 
 }, false)
 
@@ -47,3 +66,5 @@ function getFromValues(form){
 
     return formData;
 }
+
+

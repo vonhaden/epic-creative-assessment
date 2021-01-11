@@ -37,7 +37,7 @@ require_once ('includes/database.php');
 // User Config
 // =====================================================================================================================
 // message that will be displayed when everything is OK :)
-$okMessage = 'Contact form successfully submitted. Thank you, I will get back to you soon!';
+$okMessage = 'Thank you for contacting us!';
 
 // If something goes wrong, we will display this message.
 $errorMessage = 'There was an error while submitting the form. Please try again later';
@@ -124,8 +124,29 @@ try {
         $result = mysqli_stmt_execute($stmt);
 
 
-//        $responseArray = array('type' => 'success', 'message' => $okMessage);
+
+        // =============================================================================================================
+        // Set response
+        // =============================================================================================================
+        $responseArray = array(
+            'type' => 'success',
+            'message' => $okMessage
+        );
     }
 } catch (Exception $e) {
     $responseArray = array('type' => 'danger', 'message' => $e->getMessage());
+}
+
+
+// =====================================================================================================================
+// Send response to the client
+// ====================================================================================================================
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    $encoded = json_encode($responseArray);
+
+    header('Content-Type: application/json');
+
+    echo $encoded;
+} else {
+    echo $responseArray['message'];
 }
