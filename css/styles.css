@@ -1,7 +1,9 @@
-body {
-    background-color: #eee;
-}
-
 .wrapper {
     background-color: #fff;
+}
+
+@media (min-width: 576px) {
+    body {
+        background-color: #eee;
+    }
 }
