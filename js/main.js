@@ -1,3 +1,18 @@
+// =====================================================================================================================
+// Show the form
+// =====================================================================================================================
+
+// Select the button
+const showFormBtn = document.querySelector('.showFormBtn');
+
+// On click, hide the button and show the form
+showFormBtn.addEventListener("click", () => {
+    showFormBtn.classList.add('d-none');
+    form.classList.remove('d-none');
+})
+
+
+
 // Fetch form for custom Bootstrap validation styles
 const form = document.querySelector('.needs-validation')
 
@@ -66,5 +81,3 @@ function getFromValues(form){
 
     return formData;
 }
-
-
